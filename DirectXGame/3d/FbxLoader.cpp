@@ -78,6 +78,10 @@ void FbxLoader::LoadModelFromFile(
 
 
 
+	// バッファ生成
+	model->CreateBuffers(device);
+
+
 }
 
 
