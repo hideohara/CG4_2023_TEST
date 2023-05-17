@@ -6,6 +6,10 @@
 #include "FbxLoader.h"
 
 
+#include "Object3d.h"
+
+
+
 
 using namespace DirectX;
 
@@ -17,6 +21,14 @@ GameScene::~GameScene()
 {
 	safe_delete(spriteBG);
 	safe_delete(lightGroup);
+
+	safe_delete(object1);
+	safe_delete(model1);
+
+
+
+
+
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -62,13 +74,30 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	lightGroup = LightGroup::Create();
 
 	// カメラ注視点をセット
-	camera->SetTarget({ 0, 1, 0 });
-	camera->SetDistance(3.0f);
-
+	//camera->SetTarget({ 0, 1, 0 });
+	//camera->SetDistance(3.0f);
+	camera->SetTarget({ 0, 20, 0 });
+	camera->SetDistance(100.0f);
 
 	// モデル名を指定してファイル読み込み
-	FbxLoader::GetInstance()->LoadModelFromFile(
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile(
 		"cube");
+
+
+	// デバイスをセット
+	Object3d::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	Object3d::SetCamera(camera);
+
+
+	// グラフィックスパイプライン生成
+	Object3d::CreateGraphicsPipeline();
+
+
+	// 3Dオブジェクト生成とモデルのセット
+	object1 = new Object3d;
+	object1->Initialize();
+	object1->SetModel(model1);
 
 
 }
@@ -78,6 +107,10 @@ void GameScene::Update()
 	lightGroup->Update();
 	camera->Update();
 	particleMan->Update();
+
+	object1->Update();
+
+
 }
 
 void GameScene::Draw()
@@ -102,6 +135,8 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3D描画
+
+	object1->Draw(cmdList);
 
 	// パーティクルの描画
 	particleMan->Draw(cmdList);

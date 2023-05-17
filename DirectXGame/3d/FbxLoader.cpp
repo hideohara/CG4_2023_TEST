@@ -41,7 +41,7 @@ void FbxLoader::Finalize()
 }
 
 
-void FbxLoader::LoadModelFromFile(
+Model* FbxLoader::LoadModelFromFile(
 	const string& modelName)
 {
 	// モデルと同じ名前のフォルダから読み込む
@@ -80,6 +80,9 @@ void FbxLoader::LoadModelFromFile(
 
 	// バッファ生成
 	model->CreateBuffers(device);
+
+
+	return model;
 
 
 }
