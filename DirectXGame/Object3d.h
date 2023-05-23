@@ -10,6 +10,10 @@
 #include <DirectXMath.h>
 #include <string>
 
+// これがないと１１ｐでエラー
+#include "FbxLoader.h"
+
+
 class Object3d
 {
 protected: // エイリアス
@@ -44,6 +48,10 @@ private: // 静的メンバ変数
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 
+public: // 定数
+	// ボーンの最大数
+	static const int MAX_BONES = 32;
+
 
 public: // サブクラス
 	// 定数バッファ用データ構造体（座標変換行列用）
@@ -53,6 +61,14 @@ public: // サブクラス
 		XMMATRIX world;		// ワールド行列
 		XMFLOAT3 cameraPos;	// カメラ座標（ワールド座標）
 	};
+
+	// 定数バッファ用データ構造体（スキニング）
+	struct ConstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
+
+
 
 
 public: // メンバ関数
@@ -94,6 +110,10 @@ protected: // メンバ変数
 	XMMATRIX matWorld;
 	// モデル
 	Model* model = nullptr;
+
+
+	// 定数バッファ（スキン）
+	ComPtr<ID3D12Resource> constBuffSkin;
 
 
 
