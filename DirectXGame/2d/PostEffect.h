@@ -4,6 +4,10 @@
 class PostEffect
 	: public Sprite
 {
+protected: // エイリアス
+	// Microsoft::WRL::を省略
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -15,5 +19,18 @@ public:
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize();
+
+private:
+	// テクスチャバッファ
+	ComPtr<ID3D12Resource> texBuff;
+	// SRV用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+
+
 };
 
