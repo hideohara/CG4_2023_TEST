@@ -37,6 +37,11 @@ public:
 	/// <param name="cmdList">コマンドリスト</param>
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
 
+	/// <summary>
+	/// パイプライン生成
+	/// </summary>
+	void CreateGraphicsPipelineState();
+
 
 private:
 	// テクスチャバッファ
@@ -53,6 +58,12 @@ private:
 
 	// 画面クリアカラー
 	static const float clearColor[4];
+
+
+	// グラフィックスパイプライン
+	ComPtr<ID3D12PipelineState> pipelineState;
+	// ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
 
 
 };
